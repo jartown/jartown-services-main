@@ -1,0 +1,14 @@
+env: "dev"
+debug: true
+port: 8080
+jwt:
+  key:
+  timeout: "1h"
+jwt-menu:
+  key:
+  timeout-secs: 7200
+mongodb:
+  uri: mongodb+srv://singkorn:tiger6386@cluster0-69dpg.mongodb.net/test?retryWrites=true&w=majority
+  username: 
+  password: 
+  schema: mongodb

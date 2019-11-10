@@ -1,0 +1,1095 @@
+swagger: "2.0"
+info:
+  description: "Diancai API"
+  version: "1.0.0"
+  title: "Diancai API"
+host: "diancai-api.35-187-242-181.nip.io"
+basePath: "/api/v1"
+tags:
+- name: "shop"
+  description: "Shop management"
+- name: "category"
+  description: "Category management"
+- name: "menu"
+  description: "Menu management"
+- name: "order"
+  description: "Order management"
+schemes:
+- "https"
+- "wss"
+paths:
+  /shop:
+    post:
+      tags:
+      - "shop"
+      summary: "Add new shop"
+      description: ""
+      operationId: "createShop"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Shop data"
+        required: true
+        schema:
+          $ref: "#/definitions/Shop"
+      responses:
+        200:
+          description: "Created shop data with ID"
+          schema:
+            $ref: "#/definitions/Shop"
+        401:
+          description: "Unauthorized error"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden error"
+          schema:
+            $ref: "#/definitions/Error"
+        400:
+          description: "Input validation error"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Other error"
+          schema:
+            $ref: "#/definitions/Error"
+  /shop/{id}:
+    get:
+      tags:
+      - "shop"
+      summary: "Get shop data"
+      description: ""
+      operationId: "getShop"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        type: "string"
+        name: "id"
+        description: "Shop ID"
+        required: true
+      responses:
+        200:
+          description: "Shop data"
+          schema:
+            $ref: "#/definitions/Shop"
+        401:
+          description: "Unauthorized error"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden error"
+          schema:
+            $ref: "#/definitions/Error"
+        400:
+          description: "Input validation error"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not found error"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Other error"
+          schema:
+            $ref: "#/definitions/Error"
+    put:
+      tags:
+      - "shop"
+      summary: "Edit shop data"
+      description: ""
+      operationId: "editShop"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        type: "string"
+        name: "id"
+        description: "Shop ID"
+        required: true
+      - in: "body"
+        name: "body"
+        description: "New shop data"
+        required: true
+        schema:
+          type: "object"
+          properties:
+            id:
+              type: "string"
+            name:
+              type: "string"
+            logo:
+              type: "string"
+              example: "https://example.com/logo.jpg"
+      responses:
+        200:
+          description: "Shop data"
+          schema:
+            $ref: "#/definitions/Shop"
+        401:
+          description: "Unauthorized error"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden error"
+          schema:
+            $ref: "#/definitions/Error"
+        400:
+          description: "Input validation error"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not found error"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Other error"
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      tags:
+      - "shop"
+      summary: "Delete shop"
+      description: ""
+      operationId: "deleteShop"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        type: "string"
+        name: "id"
+        description: "Shop ID"
+        required: true
+      responses:
+        200:
+          description: "Status"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+        401:
+          description: "Unauthorized error"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden error"
+          schema:
+            $ref: "#/definitions/Error"
+        400:
+          description: "Input validation error"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not found error"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Other error"
+          schema:
+            $ref: "#/definitions/Error"
+  /shop/{id}/categories:
+    get:
+      tags:
+      - "category"
+      summary: "Get categories by shopID"
+      description: ""
+      operationId: "getCategories"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        type: "string"
+        name: "id"
+        description: "Shop ID"
+        required: true
+      responses:
+        200:
+          description: "Categories data"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Category"
+        401:
+          description: "Unauthorized error"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden error"
+          schema:
+            $ref: "#/definitions/Error"
+        400:
+          description: "Input validation error"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not found error"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Other error"
+          schema:
+            $ref: "#/definitions/Error"
+    put:
+      tags:
+      - "category"
+      summary: "Edit categories"
+      description: ""
+      operationId: "editCategories"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        type: "string"
+        name: "id"
+        description: "Shop ID"
+        required: true
+      - in: "body"
+        name: "body"
+        description: "New categories data"
+        required: true
+        schema:
+          type: "array"
+          items:
+            $ref: "#/definitions/Category"
+      responses:
+        200:
+          description: "Categories data"
+          schema:
+            $ref: "#/definitions/Category"
+        401:
+          description: "Unauthorized error"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden error"
+          schema:
+            $ref: "#/definitions/Error"
+        400:
+          description: "Input validation error"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not found error"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Other error"
+          schema:
+            $ref: "#/definitions/Error"
+  /shop/{id}/categories/{categoryid}/menu:
+    get:
+      tags:
+      - "menu"
+      summary: "Get menus by categoryID"
+      description: ""
+      operationId: "getMenusByCategory"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        type: "string"
+        name: "id"
+        description: "Shop ID"
+        required: true
+      - in: "path"
+        type: "string"
+        name: "categoryid"
+        description: "Category ID"
+        required: true
+      responses:
+        200:
+          description: "Menu data"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/MenuItem"
+        401:
+          description: "Unauthorized error"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden error"
+          schema:
+            $ref: "#/definitions/Error"
+        400:
+          description: "Input validation error"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not found error"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Other error"
+          schema:
+            $ref: "#/definitions/Error"
+  /shop/{id}/menu:
+    post:
+      tags:
+      - "menu"
+      summary: "Add new menu"
+      description: ""
+      operationId: "createMenu"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        type: "string"
+        name: "id"
+        description: "Shop ID"
+        required: true
+      - in: "body"
+        name: "body"
+        description: "Menu data"
+        required: true
+        schema:
+          $ref: "#/definitions/MenuItem"
+      responses:
+        200:
+          description: "Created menu with shopID"
+          schema:
+            $ref: "#/definitions/MenuItem"
+        401:
+          description: "Unauthorized error"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden error"
+          schema:
+            $ref: "#/definitions/Error"
+        400:
+          description: "Input validation error"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Other error"
+          schema:
+            $ref: "#/definitions/Error"
+  /shop/{id}/menu/{menuid}:
+    put:
+      tags:
+      - "menu"
+      summary: "Edit menu by menuID"
+      description: ""
+      operationId: "editMenu"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        type: "string"
+        name: "id"
+        description: "Shop ID"
+        required: true
+      - in: "path"
+        type: "string"
+        name: "menuid"
+        description: "Menu ID"
+        required: true
+      - in: "body"
+        name: "body"
+        description: "New menu data"
+        required: true
+        schema:
+          $ref: "#/definitions/MenuItem"
+      responses:
+        200:
+          description: "Menu data"
+          schema:
+            $ref: "#/definitions/MenuItem"
+        401:
+          description: "Unauthorized error"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden error"
+          schema:
+            $ref: "#/definitions/Error"
+        400:
+          description: "Input validation error"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not found error"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Other error"
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      tags:
+      - "menu"
+      summary: "Delete Menu"
+      description: ""
+      operationId: "deleteMenu"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        type: "string"
+        name: "id"
+        description: "Shop ID"
+        required: true
+      - in: "path"
+        type: "string"
+        name: "menuid"
+        description: "Menu ID"
+        required: true
+      responses:
+        200:
+          description: "Status"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+        401:
+          description: "Unauthorized error"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden error"
+          schema:
+            $ref: "#/definitions/Error"
+        400:
+          description: "Input validation error"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not found error"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Other error"
+          schema:
+            $ref: "#/definitions/Error"
+  /order:
+    post:
+      tags:
+      - "order"
+      summary: "Create order"
+      description: ""
+      operationId: "createOrder"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "New order data"
+        required: true
+        schema:
+          $ref: "#/definitions/Order"
+      responses:
+        200:
+          description: "Newly created order"
+          schema:
+            $ref: "#/definitions/Order"
+        401:
+          description: "Unauthorized error"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden error"
+          schema:
+            $ref: "#/definitions/Error"
+        400:
+          description: "Input validation error"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Other error"
+          schema:
+            $ref: "#/definitions/Error"
+  /order/id/{id}:
+    get:
+      tags:
+      - "order"
+      summary: "Get order"
+      description: ""
+      operationId: "getOrderByID"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        type: "string"
+        name: "id"
+        description: "Order ID"
+        required: true
+      responses:
+        200:
+          description: "Queried order"
+          schema:
+            $ref: "#/definitions/Order"
+        401:
+          description: "Unauthorized error"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden error"
+          schema:
+            $ref: "#/definitions/Error"
+        400:
+          description: "Input validation error"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not found error"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Other error"
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      tags:
+      - "order"
+      summary: "Delete order"
+      description: ""
+      operationId: "deleteOrder"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        type: "string"
+        name: "id"
+        description: "Order ID"
+        required: true
+      responses:
+        200:
+          description: "Status"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+        401:
+          description: "Unauthorized error"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden error"
+          schema:
+            $ref: "#/definitions/Error"
+        400:
+          description: "Input validation error"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not found error"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Other error"
+          schema:
+            $ref: "#/definitions/Error"
+  /order/shop/{id}:
+    get:
+      tags:
+      - "order"
+      summary: "Get shop's orders"
+      description: ""
+      operationId: "getOrderByShop"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        type: "string"
+        name: "id"
+        description: "Shop ID"
+        required: true
+      - in: "query"
+        type: "string"
+        name: "filter"
+        description: "order status"
+        required: false
+      - in: "query"
+        type: "string"
+        name: "startAt"
+        description: "search order start from (yyyy-mm-dd)"
+        required: false
+      - in: "query"
+        type: "string"
+        name: "endAt"
+        description: "search order up until (yyyy-mm-dd)"
+        required: false
+      responses:
+        200:
+          description: "An array of orders associated with that shop"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Order"
+        401:
+          description: "Unauthorized error"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden error"
+          schema:
+            $ref: "#/definitions/Error"
+        400:
+          description: "Input validation error"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not found error"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Other error"
+          schema:
+            $ref: "#/definitions/Error"
+  /order/table/{shopid}/{table}:
+    get:
+      tags:
+      - "order"
+      summary: "Get table's orders"
+      description: ""
+      operationId: "getOrderByShopTable"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        type: "string"
+        name: "shopid"
+        description: "Shop ID"
+        required: true
+      - in: "path"
+        type: "string"
+        name: "table"
+        description: "Table"
+        required: true
+      responses:
+        200:
+          description: "An array of orders associated with that table"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Order"
+        401:
+          description: "Unauthorized error"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden error"
+          schema:
+            $ref: "#/definitions/Error"
+        400:
+          description: "Input validation error"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not found error"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Other error"
+          schema:
+            $ref: "#/definitions/Error"
+  /order/id/{id}/items:
+    post:
+      tags:
+      - "order"
+      summary: "Add items to order"
+      description: ""
+      operationId: "addItemsToOrder"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        type: "string"
+        name: "id"
+        description: "Order ID"
+        required: true
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          type: "array"
+          items:
+            $ref: "#/definitions/OrderItem"
+      responses:
+        200:
+          description: "Status"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+        401:
+          description: "Unauthorized error"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden error"
+          schema:
+            $ref: "#/definitions/Error"
+        400:
+          description: "Input validation error"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not found error"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Other error"
+          schema:
+            $ref: "#/definitions/Error"
+    put:
+      tags:
+      - "order"
+      summary: "Set items"
+      description: ""
+      operationId: "setItems"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        type: "string"
+        name: "id"
+        description: "Order ID"
+        required: true
+      - in: "body"
+        name: "body"
+        description: "Item status associated with index number"
+        required: true
+        schema:
+          type: "array"
+          items:
+            $ref: "#/definitions/OrderItem"
+      responses:
+        200:
+          description: "Status"
+          schema:
+            type: "object"
+            properties:
+              success:
+                type: "boolean"
+        401:
+          description: "Unauthorized error"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden error"
+          schema:
+            $ref: "#/definitions/Error"
+        400:
+          description: "Input validation error"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not found error"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Other error"
+          schema:
+            $ref: "#/definitions/Error"
+  /ws/order/shop/{id}:
+    get:
+      tags:
+      - "order"
+      summary: "Subscribe shop's orders update (WebSocket)"
+      description: ""
+      operationId: "subscribeOrderUpdateByShop"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        type: "string"
+        name: "id"
+        description: "Shop ID"
+        required: true
+      responses:
+        101:
+          description: "Upgrade to WebSocket connection that keep sending order update signal"
+          schema:
+            $ref: "#/definitions/OrderUpdateSignal"
+        401:
+          description: "Unauthorized error"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden error"
+          schema:
+            $ref: "#/definitions/Error"
+        400:
+          description: "Input validation error"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not found error"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Other error"
+          schema:
+            $ref: "#/definitions/Error"
+  /ws/order/table/{shopid}/{table}:
+    get:
+      tags:
+      - "order"
+      summary: "Subscribe table's orders update (WebSocket)"
+      description: ""
+      operationId: "subscribeOrderUpdateByShopTable"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        type: "string"
+        name: "shopid"
+        description: "Shop ID"
+        required: true
+      - in: "path"
+        type: "string"
+        name: "table"
+        description: "Table"
+        required: true
+      responses:
+        101:
+          description: "Upgrade to WebSocket connection that keep sending order update signal"
+          schema:
+            $ref: "#/definitions/OrderUpdateSignal"
+        401:
+          description: "Unauthorized error"
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden error"
+          schema:
+            $ref: "#/definitions/Error"
+        400:
+          description: "Input validation error"
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not found error"
+          schema:
+            $ref: "#/definitions/Error"
+        500:
+          description: "Other error"
+          schema:
+            $ref: "#/definitions/Error"
+definitions:
+  StringIntl:
+    type: "object"
+    properties:
+      th:
+        type: "string"
+      en:
+        type: "string"
+      zh:
+        type: "string"
+  Shop:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        $ref: "#/definitions/StringIntl"
+      description:
+        $ref: "#/definitions/StringIntl"
+      logo:
+        type: "string"
+      photos:
+        type: "array"
+        items:
+          type: "string"
+      phones:
+        type: "array"
+        items:
+          type: "string"
+      verifyMethod:
+        type: "string"
+      address:
+        $ref: "#/definitions/StringIntl"
+      coordinates:
+        type: "array"
+        items:
+          type: "number"
+      tables:
+        type: "array"
+        items:
+          type: "string"
+      created_at:
+        type: "string"
+        format: "date-time"
+      updated_at:
+        type: "string"
+        format: "date-time"
+      deleted_at:
+        type: "string"
+        format: "date-time"
+  MenuItem:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      identifier:
+        type: "string"
+      shop_id:
+        type: "string"
+      category_ids:
+        type: "array"
+        items:
+          type: "string"
+      name:
+        $ref: "#/definitions/StringIntl"
+      description:
+        $ref: "#/definitions/StringIntl"
+      image:
+        type: "string"
+      price:
+        type: "integer"
+      option_groups:
+        type: "array"
+        items: 
+          $ref: "#/definitions/MenuOptionGroup"
+  MenuOptionGroup:
+    type: "object"
+    properties:
+      name:
+        $ref: "#/definitions/StringIntl"
+      options:
+        type: "array"
+        items: 
+          $ref: "#/definitions/MenuOption"
+      min:
+        type: "integer"
+      max:
+        type: "integer"
+  MenuOption:
+    type: "object"
+    properties:
+      identifier:
+        type: "string"
+      name:
+        $ref: "#/definitions/StringIntl"
+      extra_price:
+        type: "integer"
+  Category:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      shop_id:
+        type: "string"
+      position:
+        type: "integer"
+      name:
+        $ref: "#/definitions/StringIntl"
+      menu:
+        type: "array"
+        items: 
+          type: "string"
+  Order:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      shop_id:
+        type: "string"
+      table:
+        type: "string"
+      items:
+        type: "array"
+        items:
+          $ref: "#/definitions/OrderItem"
+      ordered_at:
+        type: "string"
+      ordered_by:
+        type: "string"
+      payment_info:
+        $ref: "#/definitions/PaymentInfo"
+  OrderItem:
+    type: "object"
+    properties:
+      identifier:
+        type: "string"
+      name:
+        $ref: "#/definitions/StringIntl"
+      description:
+        $ref: "#/definitions/StringIntl"
+      price:
+        type: "integer"
+      quantity:
+        type: "integer"
+      note:
+        type: "string"
+      status:
+        type: "string"
+      options:
+        type: "array"
+        items: 
+          $ref: "#/definitions/MenuOption"
+  OrderUpdateSignal:
+    type: "object"
+    properties:
+      signal_type:
+        type: "string"
+        enum:
+          - "update"
+          - "ping"
+      event:
+        type: "string"
+        enum:
+          - "new_items"
+          - "update_items"
+          - "bind_order"
+          - "delete_order"
+  PaymentInfo:
+    type: "object"
+    properties:
+      method:
+        type: "string"
+      ref:
+        type: "string"
+      at:
+        type: "string"
+  Error:
+    type: "object"
+    properties:
+      error:
+        type: "string"
