@@ -3,76 +3,44 @@ package database
 import (
 	"context"
 
-	"gitlab.com/diancai/diancai-api/model"
-	"gitlab.com/diancai/diancai-services-common/neomongo"
+	"github.com/singkorn/jartown-services-common/neomongo"
+	"github.com/singkorn/jartown-services-main/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
-type ShopDatabase interface {
-	GetShop(id string) (model.Shop, error)
+type ListReviewDatabase interface {
+	GetListReview(id string) (model.ListReview, error)
 }
 
-type shopDatabaseImpl struct {
-	shopsCollection      neomongo.Collection
-	categoriesCollection neomongo.Collection
-	menusCollection      neomongo.Collection
+type listReviewDatabaseImpl struct {
+	listReviewsCollection neomongo.Collection
 }
 
-func GetShopDatabase() ShopDatabase {
-	shopsCollection := database.Collection("shops")
-	categoriesCollection := database.Collection("categories")
-	menusCollection := database.Collection("menus")
+func GetListReviewDatabase() ListReviewDatabase {
+	listReviewsCollection := database.Collection("listingsAndReviews")
 
-	db := &shopDatabaseImpl{
-		shopsCollection:      neomongo.MakeCollectionImpl(shopsCollection),
-		categoriesCollection: neomongo.MakeCollectionImpl(categoriesCollection),
-		menusCollection:      neomongo.MakeCollectionImpl(menusCollection),
-	}
-
-	_, err := menusCollection.Indexes().CreateMany(context.TODO(),
-		[]mongo.IndexModel{
-			{Keys: bson.D{
-				{Key: "shop_id", Value: 1},
-			}},
-		},
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
-	_, err = categoriesCollection.Indexes().CreateMany(context.TODO(),
-		[]mongo.IndexModel{
-			{Keys: bson.D{
-				{Key: "shop_id", Value: 1},
-				{Key: "position", Value: 1},
-			}},
-		},
-	)
-
-	if err != nil {
-		panic(err)
+	db := &listReviewDatabaseImpl{
+		listReviewsCollection: neomongo.MakeCollectionImpl(listReviewsCollection),
 	}
 
 	return db
 }
 
-func (db *shopDatabaseImpl) GetShop(id string) (model.Shop, error) {
+func (db *listReviewDatabaseImpl) GetListReview(id string) (model.ListReview, error) {
 	objID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		return model.Shop{}, returnError(err)
+		return model.ListReview{}, returnError(err)
 	}
 
-	var shop model.Shop
-	res := db.shopsCollection.FindOne(context.TODO(), bson.D{{Key: "_id", Value: objID}})
-	err = res.Decode(&shop)
+	var listReview model.ListReview
+	res := db.listReviewsCollection.FindOne(context.TODO(), bson.D{{Key: "_id", Value: objID}})
+	err = res.Decode(&listReview)
 	if err != nil {
-		return model.Shop{}, returnError(err)
+		return model.ListReview{}, returnError(err)
 	}
 
-	shop.ID = id
+	listReview.ID = id
 
-	return shop, nil
+	return listReview, nil
 }

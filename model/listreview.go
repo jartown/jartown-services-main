@@ -1,119 +1,129 @@
 package model
 
 import (
-	"encoding/hex"
-	"time"
-
-	"github.com/dgrijalva/jwt-go"
-	"gitlab.com/diancai/diancai-api/config"
+	"encoding/json"
 )
 
-type Shop struct {
-	ID           string     `bson:"-" json:"id"`
-	Name         StringIntl `bson:"name" json:"name"`
-	Description  StringIntl `bson:"description" json:"description"`
-	Logo         string     `bson:"logo" json:"logo"`
-	Photos       []string   `bson:"photos" json:"photos"`
-	Phones       []string   `bson:"phones" json:"phones"`
-	VerifyMethod string     `bson:"verify_method" json:"verify_method"`
-	Address      StringIntl `bson:"address" json:"address"`
-	Coordinates  []float64  `bson:"coordinates" json:"coordinates"`
-	Tables       []string   `bson:"tables" json:"tables"`
-	CreatedAt    time.Time  `bson:"created_at" json:"created_at"`
-	UpdatedAt    time.Time  `bson:"updated_at" json:"updated_at"`
-	DeletedAt    time.Time  `bson:"deleted_at" json:"deleted_at"`
+func UnmarshalListReview(data []byte) (ListReview, error) {
+	var r ListReview
+	err := json.Unmarshal(data, &r)
+	return r, err
 }
 
-type MenuItem struct {
-	ID           string            `bson:"-" json:"id"`
-	Identifier   string            `bson:"identifier" json:"identifier"`
-	ShopID       string            `bson:"shop_id" json:"shop_id"`
-	CategoryIDs  []string          `bson:"category_ids" json:"category_ids"`
-	Name         StringIntl        `bson:"name" json:"name"`
-	Description  StringIntl        `bson:"description" json:"description"`
-	Image        string            `bson:"image" json:"image"`
-	Price        int64             `bson:"price" json:"price"`
-	OptionGroups []MenuOptionGroup `bson:"option_groups" json:"option_groups"`
-	CreatedAt    time.Time         `bson:"created_at" json:"created_at"`
-	UpdatedAt    time.Time         `bson:"updated_at" json:"updated_at"`
-	DeletedAt    time.Time         `bson:"deleted_at" json:"deleted_at"`
-	SigToken     string            `bson:"-" json:"sig_token,omitempty"`
+func (r *ListReview) Marshal() ([]byte, error) {
+	return json.Marshal(r)
 }
 
-type MenuOptionGroup struct {
-	Name       StringIntl   `bson:"name" json:"name"`
-	Options    []MenuOption `bson:"options" json:"options"`
-	MinOptions int64        `bson:"min" json:"min"`
-	MaxOptions int64        `bson:"max" json:"max"`
+type ListReview struct {
+	ID                   string       `json:"_id"`
+	ListingURL           string       `json:"listing_url"`
+	Name                 string       `json:"name"`
+	Summary              string       `json:"summary"`
+	Space                string       `json:"space"`
+	Description          string       `json:"description"`
+	NeighborhoodOverview string       `json:"neighborhood_overview"`
+	Notes                string       `json:"notes"`
+	Transit              string       `json:"transit"`
+	Access               string       `json:"access"`
+	Interaction          string       `json:"interaction"`
+	HouseRules           string       `json:"house_rules"`
+	PropertyType         string       `json:"property_type"`
+	RoomType             string       `json:"room_type"`
+	BedType              string       `json:"bed_type"`
+	MinimumNights        string       `json:"minimum_nights"`
+	MaximumNights        string       `json:"maximum_nights"`
+	CancellationPolicy   string       `json:"cancellation_policy"`
+	LastScraped          string       `json:"last_scraped"`
+	CalendarLastScraped  string       `json:"calendar_last_scraped"`
+	FirstReview          string       `json:"first_review"`
+	LastReview           string       `json:"last_review"`
+	Accommodates         int64        `json:"accommodates"`
+	Bedrooms             int64        `json:"bedrooms"`
+	Beds                 int64        `json:"beds"`
+	NumberOfReviews      int64        `json:"number_of_reviews"`
+	Bathrooms            Bathrooms    `json:"bathrooms"`
+	Amenities            []string     `json:"amenities"`
+	Price                Bathrooms    `json:"price"`
+	SecurityDeposit      Bathrooms    `json:"security_deposit"`
+	CleaningFee          Bathrooms    `json:"cleaning_fee"`
+	ExtraPeople          Bathrooms    `json:"extra_people"`
+	GuestsIncluded       Bathrooms    `json:"guests_included"`
+	Images               Images       `json:"images"`
+	Host                 Host         `json:"host"`
+	Address              Address      `json:"address"`
+	Availability         Availability `json:"availability"`
+	ReviewScores         ReviewScores `json:"review_scores"`
+	Reviews              []Review     `json:"reviews"`
 }
 
-type MenuOption struct {
-	Identifier string     `bson:"identifier" json:"identifier"`
-	Name       StringIntl `bson:"name" json:"name"`
-	ExtraPrice int64      `bson:"extra_price" json:"extra_price"`
+type Address struct {
+	Street         string   `json:"street"`
+	Suburb         string   `json:"suburb"`
+	GovernmentArea string   `json:"government_area"`
+	Market         string   `json:"market"`
+	Country        string   `json:"country"`
+	CountryCode    string   `json:"country_code"`
+	Location       Location `json:"location"`
 }
 
-type Category struct {
-	ID       string     `bson:"-" json:"id"`
-	ShopID   string     `bson:"shop_id" json:"shop_id"`
-	Position int64      `bson:"position" json:"position"`
-	Name     StringIntl `bson:"name" json:"name"`
-	Menu     []string   `bson:"menu" json:"menu"`
+type Location struct {
+	Type            string    `json:"type"`
+	Coordinates     []float64 `json:"coordinates"`
+	IsLocationExact bool      `json:"is_location_exact"`
 }
 
-var DefaultCategory = Category{
-	Position: 1,
-	Name: StringIntl{
-		EN: "Menu",
-		TH: "เมนู",
-		ZH: "菜单",
-	},
+type Availability struct {
+	Availability30  int64 `json:"availability_30"`
+	Availability60  int64 `json:"availability_60"`
+	Availability90  int64 `json:"availability_90"`
+	Availability365 int64 `json:"availability_365"`
 }
 
-type MenuItemClaims struct {
-	Name    StringIntl            `json:"name"`
-	Price   int64                 `json:"price"`
-	Options map[string]MenuOption `json:"options"`
-	jwt.StandardClaims
+type Bathrooms struct {
+	NumberDecimal string `json:"$numberDecimal"`
 }
 
-func (m MenuItem) GetSignature() (string, error) {
-	claims := MenuItemClaims{}
-	claims.Name = m.Name
-	claims.Price = m.Price
-	claims.Options = make(map[string]MenuOption)
-	for _, optGroup := range m.OptionGroups {
-		for _, opt := range optGroup.Options {
-			claims.Options[opt.Identifier] = opt
-		}
-	}
-	claims.Subject = m.Identifier
-	now := time.Now()
-	expires := now.Add(time.Duration(config.Conf.JWTMenu.Timeout) * time.Second)
-	claims.IssuedAt = now.UTC().Unix()
-	claims.NotBefore = now.UTC().Unix()
-	claims.ExpiresAt = expires.UTC().Unix()
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	hexKey, err := hex.DecodeString(config.Conf.JWTMenu.Key)
-	if err != nil {
-		return "", err
-	}
-	jwtStr, err := token.SignedString(hexKey)
-	if err != nil {
-		return "", err
-	}
-
-	return jwtStr, nil
+type Host struct {
+	HostID                 string   `json:"host_id"`
+	HostURL                string   `json:"host_url"`
+	HostName               string   `json:"host_name"`
+	HostLocation           string   `json:"host_location"`
+	HostAbout              string   `json:"host_about"`
+	HostResponseTime       string   `json:"host_response_time"`
+	HostThumbnailURL       string   `json:"host_thumbnail_url"`
+	HostPictureURL         string   `json:"host_picture_url"`
+	HostNeighbourhood      string   `json:"host_neighbourhood"`
+	HostResponseRate       int64    `json:"host_response_rate"`
+	HostIsSuperhost        bool     `json:"host_is_superhost"`
+	HostHasProfilePic      bool     `json:"host_has_profile_pic"`
+	HostIdentityVerified   bool     `json:"host_identity_verified"`
+	HostListingsCount      int64    `json:"host_listings_count"`
+	HostTotalListingsCount int64    `json:"host_total_listings_count"`
+	HostVerifications      []string `json:"host_verifications"`
 }
 
-func (m *MenuItem) Sign() error {
-	sig, err := m.GetSignature()
-	if err != nil {
-		return err
-	}
+type Images struct {
+	ThumbnailURL string `json:"thumbnail_url"`
+	MediumURL    string `json:"medium_url"`
+	PictureURL   string `json:"picture_url"`
+	XlPictureURL string `json:"xl_picture_url"`
+}
 
-	m.SigToken = sig
+type ReviewScores struct {
+	ReviewScoresAccuracy      int64 `json:"review_scores_accuracy"`
+	ReviewScoresCleanliness   int64 `json:"review_scores_cleanliness"`
+	ReviewScoresCheckin       int64 `json:"review_scores_checkin"`
+	ReviewScoresCommunication int64 `json:"review_scores_communication"`
+	ReviewScoresLocation      int64 `json:"review_scores_location"`
+	ReviewScoresValue         int64 `json:"review_scores_value"`
+	ReviewScoresRating        int64 `json:"review_scores_rating"`
+}
 
-	return nil
+type Review struct {
+	ID           string `json:"_id"`
+	Date         string `json:"date"`
+	ListingID    string `json:"listing_id"`
+	ReviewerID   string `json:"reviewer_id"`
+	ReviewerName string `json:"reviewer_name"`
+	Comments     string `json:"comments"`
 }

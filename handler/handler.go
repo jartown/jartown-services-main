@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	common "github.com/singkorn/jartown-services-common"
 	"github.com/singkorn/jartown-services-common/auth"
-	// "github.com/singkorn/jartown-services-main/service"
+	"github.com/singkorn/jartown-services-main/service"
 )
 
 type Route struct {

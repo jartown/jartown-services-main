@@ -11,7 +11,7 @@ type Config struct {
 		Username string `yaml:"username"`
 		Password string `yaml:"password"`
 		Schema   string `yaml:"schema"`
-	} `yaml:"mongodb"`
+	} `yaml:"sample_airbnb"`
 	JWTMenu struct {
 		Key     string `yaml:"key"`
 		Timeout int    `yaml:"timeout-secs"`

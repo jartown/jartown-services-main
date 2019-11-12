@@ -11,4 +11,4 @@ mongodb:
   uri: mongodb+srv://singkorn:tiger6386@cluster0-69dpg.mongodb.net/test?retryWrites=true&w=majority
   username: 
   password: 
-  schema: mongodb
+  schema: sample_airbnb
