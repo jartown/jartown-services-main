@@ -8,6 +8,7 @@ import (
 	"github.com/singkorn/jartown-services-common/log"
 	"github.com/singkorn/jartown-services-main/config"
 	"github.com/singkorn/jartown-services-main/database"
+	"github.com/singkorn/jartown-services-main/handler"
 )
 
 func main() {
@@ -25,7 +26,7 @@ func main() {
 
 	// pubsub := pubsub.InitBus()
 
-	// h := handler.Init(r)
+	h := handler.Init(r)
 	// h.ShopSvc = service.ShopServiceInit(database.GetShopDatabase())
 	// h.OrderSvc = service.OrderServiceInit(database.GetOrderDatabase(), pubsub)
 

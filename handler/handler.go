@@ -19,7 +19,8 @@ type Route struct {
 }
 
 type Handler struct {
-	router *gin.Engine
+	router        *gin.Engine
+	ListReviewSvc service.ListReviewService
 	// ShopSvc  service.ShopService
 	// OrderSvc service.OrderService
 }
@@ -43,14 +44,8 @@ func Init(r *gin.Engine) *Handler {
 	apiV1RG.Use(auth.MiddlewareAuthentication)
 	apiV1RG.Use(auth.MiddlewareAuthRequired)
 
-	// shopRG := apiV1RG.Group("/shop")
-	// h.registerShopSvc(shopRG)
-
-	// orderRG := apiV1RG.Group("/order")
-	// h.registerOrderSvc(orderRG)
-
-	// websocketV1RG := apiV1RG.Group("/ws")
-	// h.registerWebsocket(websocketV1RG)
+	listReviewRG := h.router.Group("/listreview")
+	h.registerListReviewSvc(listReviewRG)
 
 	common.HandlerRegisterSwagger(h.router)
 
