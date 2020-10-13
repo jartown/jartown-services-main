@@ -7,10 +7,12 @@ import (
 	common "github.com/singkorn/jartown-services-common"
 	"github.com/singkorn/jartown-services-common/log"
 	"github.com/singkorn/jartown-services-main/config"
+	"github.com/singkorn/jartown-services-main/crawler"
 	"github.com/singkorn/jartown-services-main/database"
 )
 
 func main() {
+	crawler.Crawl()
 	err := common.ConfigInit(&config.Conf)
 	if err != nil {
 		log.Fatal(err)
