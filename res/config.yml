@@ -12,3 +12,4 @@ mongodb:
   username: 
   password: 
   schema: mongodb
+url: https://www.nytimes.com/
