@@ -16,6 +16,7 @@ type Config struct {
 		Key     string `yaml:"key"`
 		Timeout int    `yaml:"timeout-secs"`
 	} `yaml:"jwt-menu"`
+	Url string `yaml:"uri"`
 }
 
 const ApplicationName = "jartown-services-main"
